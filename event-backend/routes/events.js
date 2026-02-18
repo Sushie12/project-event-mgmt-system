@@ -12,7 +12,4 @@ router.delete('/:id', protect, deleteEvent);  //delete an event(by an event crea
 router.post("/register/:id", registerEvent);  // register
 router.post("/rsvp/:id", rsvpEvent);
 
-
-
 module.exports = router;
-

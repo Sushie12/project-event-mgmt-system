@@ -7,6 +7,9 @@ import HomePage from "./pages/HomePage";
 import Events from "./pages/Events";
 import CreateNewEvent from "./pages/CreateEvent";
 import EventDetails from "./pages/EventDetails";
+import AddVenue from "./pages/CreateVenue";
+import BrowseVenue from "./pages/BrowseVenue";
+import VenueDetails from "./pages/VenueDetails";
 
 function AppWrapper() {
   const location = useLocation();
@@ -27,6 +30,9 @@ function AppWrapper() {
         <Route path="/create" element={<CreateNewEvent />} />
         <Route path="/events" element={<Events />} />
         <Route path="/events/:id" element={<EventDetails/>}></Route>
+        <Route path="/add-venue" element={<AddVenue />} />
+        <Route path="/browse-venues" element={<BrowseVenue />} />
+        <Route path="/venues/:id" element={<VenueDetails />} />
         {/* <Route path="/create" element={<CreateEvent />} /> */}
 
       </Routes>

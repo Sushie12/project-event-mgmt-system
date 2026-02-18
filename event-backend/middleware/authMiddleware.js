@@ -13,19 +13,57 @@ const protect = (req, res, next) => {
     }
 
     const actualToken = token.split(' ')[1];
+    console.log('🔍 Token:', actualToken); // ✅ Debug log
+    
     const decoded = jwt.verify(actualToken, process.env.JWT_SECRET);
+    console.log('🔍 Decoded token:', decoded); // ✅ Debug log
 
     // Attach user info to req.user
-    req.user = { userId: decoded.id || decoded.userId };
+    req.user = { userId: decoded.userId || decoded.id };
 
+    console.log('🔍 req.user:', req.user); // ✅ Debug log
     next();
   } catch (err) {
-    console.error(err);
+    console.error('❌ Token error:', err.message); // ✅ Better error log
     return res.status(401).json({ msg: 'Token is not valid' });
   }
 };
 
 module.exports = protect;
+
+
+
+
+
+
+// const jwt = require('jsonwebtoken');
+
+// const protect = (req, res, next) => {
+//   const token = req.headers.authorization;
+
+//   if (!token) {
+//     return res.status(401).json({ msg: 'No token, authorization denied' });
+//   }
+
+//   try {
+//     if (!token.startsWith('Bearer ')) {
+//       return res.status(401).json({ msg: 'Token format is invalid' });
+//     }
+
+//     const actualToken = token.split(' ')[1];
+//     const decoded = jwt.verify(actualToken, process.env.JWT_SECRET);
+
+//     // Attach user info to req.user
+//     req.user = { userId: decoded.id || decoded.userId };
+
+//     next();
+//   } catch (err) {
+//     console.error(err);
+//     return res.status(401).json({ msg: 'Token is not valid' });
+//   }
+// };
+
+// module.exports = protect;
 
 
 

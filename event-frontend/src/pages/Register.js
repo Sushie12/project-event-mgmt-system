@@ -3,7 +3,7 @@ import API from "../api"; // axios instance
 import { useNavigate } from "react-router-dom";
 
 function Register() {
-  const [formData, setFormData] = useState({ name: "", email: "", password: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", password: "",userId:"",dob:""});
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
@@ -55,6 +55,25 @@ function Register() {
           required
         />
         <br /><br />
+        <input
+          type="text"
+          name="userId"
+          placeholder="User ID"
+          value={formData.userId}
+          onChange={handleChange}
+          required
+        />
+        <br /><br />
+        <input
+          type="date"
+          name="dob"
+          placeholder="Date of Birth"
+          value={formData.dob}
+          onChange={handleChange}
+          required
+        />
+        <br /><br />
+
         <button type="submit">Register</button>
       </form>
       {message && <p>{message}</p>}

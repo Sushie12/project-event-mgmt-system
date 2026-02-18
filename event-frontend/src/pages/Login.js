@@ -34,6 +34,14 @@ function Login() {
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <input
+          type="text"
+          name="name"
+          placeholder="Name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+        />
+        <input
           type="email"
           name="email"
           placeholder="Email"

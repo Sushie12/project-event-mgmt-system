@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 function HomePage() {
   const [events, setEvents] = useState([]);
-  const [hoveredId, setHoveredId] = useState(null); // ✅ INSIDE component
+  const [hoveredId, setHoveredId] = useState(null);
   const navigate = useNavigate();
 
   const fetchEvents = async () => {
@@ -20,16 +20,48 @@ function HomePage() {
     fetchEvents();
   }, []);
 
+
   return (
     <div style={{ padding: "40px" }}>
 
-      {/* CREATE EVENT BUTTON */}
+      <button 
+       onClick={() => navigate("/browse-venues")} 
+       style={{borderRadius:"10px",
+              background:"#d97a7a",
+              cursor:"pointer",
+              padding:"10px 4px"}}>
+          Browse All Venues
+      </button>
+
+      
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <button
+          onMouseEnter={(e) => (e.target.style.background = "#91a7e1")}
+          onMouseLeave={(e)=>(e.target.style.background="#6570e9")}
           style={{
-            background: "black",
+            background:"#6570e9",
             color: "white",
-            padding: "10px 14px",
+            padding: "10px 5px",
+            borderRadius: "10px",
+            cursor: "pointer",
+            fontSize: "15px",
+            
+            marginRight:"10px",
+            transition: "background 0.3s ease"
+          }}
+          onClick={() => navigate("/add-venue")}
+        >
+          + Add Event Venue
+        </button>
+
+
+        <button
+        onMouseEnter={(e)=>e.target.style.background="#3a363674"}
+        onMouseLeave={(e)=>e.target.style.background="#1d1515"}
+          style={{
+            background: "#1d1515",
+            color: "white",
+            padding: "8px 5px",
             borderRadius: "8px",
             cursor: "pointer",
             fontSize: "15px"

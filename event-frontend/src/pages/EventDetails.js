@@ -71,7 +71,7 @@ function EventDetails() {
       });
 
       setSuccessMessage(
-        `🎉 ${bookingType.toUpperCase()} successful! Total seats booked: ${res.data.totalSeatsBooked}`
+        `${bookingType.toUpperCase()} successful! Total seats booked: ${res.data.totalSeatsBooked}`
       );
       setConfirmationStep(false);
       fetchEvent();
@@ -191,6 +191,9 @@ function EventDetails() {
         {/* SELECT SEATS */}
         {confirmationStep === "selectSeats" && (
           <div style={{ marginTop: "1rem" }}>
+            <p style={{ marginBottom: "0.8rem", fontWeight: "bold", color: "#333" }}>
+              How many seats would you like to {bookingType === "rsvp" ? "RSVP" : "register"}?
+            </p>
             <input
               type="number"
               min={1}

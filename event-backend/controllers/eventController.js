@@ -1,8 +1,6 @@
 const Event = require('../models/Event');
 const mongoose = require("mongoose");
 
-// Create Event
-
 const createEvent= async (req, res) => {
     // console.log("Incoming event data:", req.body);
     // console.log("User:", req.user);
@@ -158,15 +156,6 @@ const registerEvent = async (req, res) => {
 };
 
 
-
-
-
-
-
-
-
-
-// RSVP to Event
 // RSVP to Event
 const rsvpEvent = async (req, res) => {
   try {
@@ -205,10 +194,6 @@ const rsvpEvent = async (req, res) => {
   }
 };
 
-
-
-
-
 const deleteEvent = async (req, res) => {
   try {
     const event = await Event.findById(req.params.id);
@@ -228,6 +213,7 @@ const deleteEvent = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 const getEventById = async (req, res) => {
   try {

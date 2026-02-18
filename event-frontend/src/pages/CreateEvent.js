@@ -25,12 +25,9 @@ function CreateEvent() {
     setForm({ ...form, [name]: type === "checkbox" ? checked : value });
   };
 
-  // const [dateError, setDateError] = useState("");
-
 
  const handleSubmit = async (e) => {
   e.preventDefault();
-
 
   const payload = {
     ...form,
