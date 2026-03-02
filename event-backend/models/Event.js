@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const eventSchema = new mongoose.Schema(
   {
-    title: { type: String, required: true },
+    title: { type: String, required: true,trim:true},
 
     description: { type: String, required: true },
 
@@ -20,17 +20,12 @@ const eventSchema = new mongoose.Schema(
     // -------------------------------
     isPublic: { type: Boolean, default: true },
 
-    invitedUsers: [
+    invitedEmails: [
       { type: mongoose.Schema.Types.ObjectId, ref: "User" }
     ],
 
     // -------------------------------
-    // Accessibility
-    // -------------------------------
-    
-
-    // -------------------------------
-    // Event Type (Open or Closed)
+    // Event Type (Open,like a beach setting or Closed,like in a hotel)
     // -------------------------------
     eventType: {
       type: String,

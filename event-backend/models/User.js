@@ -15,7 +15,10 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   userId: { type: String, required: true, unique: true }, // unique user ID
-  dob: { type: Date, required: true } 
+  dob: { type: Date, required: true },
+  invitedEvents: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event" }],
+  createdEvents: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event" }]
+ 
 },{timestamps:true});
 
 module.exports = mongoose.model('User', userSchema);

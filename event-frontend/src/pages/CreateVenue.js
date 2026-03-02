@@ -29,7 +29,7 @@ function AddVenue() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await API.post("/venues", formData);
+      await API.post("/venues", formData);
       setMessage("Venue added successfully!");
       setTimeout(() => navigate("/home"), 1500);
     } catch (err) {

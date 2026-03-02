@@ -13,15 +13,15 @@ const protect = (req, res, next) => {
     }
 
     const actualToken = token.split(' ')[1];
-    console.log('🔍 Token:', actualToken); // ✅ Debug log
+    console.log('Token:', actualToken); // ✅ Debug log
     
     const decoded = jwt.verify(actualToken, process.env.JWT_SECRET);
-    console.log('🔍 Decoded token:', decoded); // ✅ Debug log
+    console.log('Decoded token:', decoded); // ✅ Debug log
 
     // Attach user info to req.user
     req.user = { userId: decoded.userId || decoded.id };
 
-    console.log('🔍 req.user:', req.user); // ✅ Debug log
+    console.log('req.user:', req.user); // ✅ Debug log
     next();
   } catch (err) {
     console.error('❌ Token error:', err.message); // ✅ Better error log

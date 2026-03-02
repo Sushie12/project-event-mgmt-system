@@ -12,7 +12,7 @@ function CreateEvent() {
     time: "",
     location: "",
     isPublic: true,
-    invitedUsers: "",
+    invitedEmails: "",
     wheelchair: false,
     eventType: "open",
     seats: "",
@@ -31,10 +31,10 @@ function CreateEvent() {
 
   const payload = {
     ...form,
-    invitedUsers:
-      form.invitedUsers.trim() === ""
+    invitedEmails:
+      form.invitedEmails.trim() === ""
         ? []
-        : form.invitedUsers.split(",").map((id) => id.trim()),
+        : form.invitedEmails.split(",").map((id) => id.trim()).filter(Boolean),
     seats: form.seats === "" ? null : Number(form.seats),
     maxSeats: form.maxSeats === "" ? null : Number(form.maxSeats)
   };
@@ -120,9 +120,9 @@ function CreateEvent() {
 
           {!form.isPublic && (
             <input
-              name="invitedUsers"
-              placeholder="Comma separated User IDs"
-              value={form.invitedUsers}
+              name="invitedEmails"
+              placeholder="Comma separated E-mails"
+              value={form.invitedEmails}
               onChange={handleChange}
               style={inputStyle}
             />

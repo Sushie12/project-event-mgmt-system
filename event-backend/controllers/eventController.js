@@ -1,3 +1,4 @@
+const User = require('../models/User');
 const Event = require('../models/Event');
 const mongoose = require("mongoose");
 
@@ -12,7 +13,7 @@ const createEvent= async (req, res) => {
       time,
       location,
       isPublic,
-      invitedUsers,
+      invitedEmails,
       wheelchair,
       eventType,
       seats,
@@ -32,7 +33,7 @@ const createEvent= async (req, res) => {
 
     // 2️⃣ Private event must have invitedUsers
     if (isPublic === false) {
-      if (!invitedUsers || invitedUsers.length === 0) {
+      if (!invitedEmails || invitedEmails.length === 0) {
         return res.status(400).json({
           msg: "Private event must include invited users list."
         });
@@ -71,6 +72,20 @@ const createEvent= async (req, res) => {
       });
     }
 
+    let invitedUserIds = [];
+    let unknownEmails = [];
+
+    if (!isPublic && invitedEmails && invitedEmails.length > 0) {
+      const matchedUsers = await User.find({ email: { $in: invitedEmails } });
+
+      invitedUserIds = matchedUsers.map((u) => u._id);
+
+      const matchedEmails = matchedUsers.map((u) => u.email);
+      unknownEmails = invitedEmails.filter((e) => !matchedEmails.includes(e));
+    }
+
+
+
     // ---------------------------
     // CREATE EVENT
     // ---------------------------
@@ -81,7 +96,7 @@ const createEvent= async (req, res) => {
       time,
       location,
       isPublic,
-      invitedUsers,
+      invitedEmails:invitedUserIds,
       wheelchair,
       eventType,
       seats: eventType === "closed" ? seats : null,
@@ -89,6 +104,18 @@ const createEvent= async (req, res) => {
       maxSeats: enableRsvp ? maxSeats : null,
       createdBy: req.user.userId
     });
+
+     if (invitedUserIds.length > 0) {
+      await User.updateMany(
+        { _id: { $in: invitedUserIds } },
+        { $addToSet: { invitedEvents: event._id } }  // $addToSet prevents duplicates
+      );
+    }
+
+    await User.findByIdAndUpdate(
+      req.user.userId,
+      { $addToSet: { createdEvents: event._id } }
+    );
 
     res.status(201).json({
       msg: "Event created successfully!",
@@ -244,40 +271,22 @@ const getEventById = async (req, res) => {
   }
 };
 
-// const getEventById = async (req, res) => {
-//   try {
-//     const event = await Event.findById(req.params.id).populate('createdBy', 'email');
-//     if (!event) {
-//       return res.status(404).json({ msg: 'Event not found' });
-//     }
-//     res.json(event);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ msg: 'Server error' });
-//   }
-// };
+const getDashboard = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId)
+      .populate("createdEvents")
+      .populate("invitedEvents");
 
-// const getEventById = async (req, res) => {
-//   try {
-//     const id = req.params.id.trim();
+    if (!user) return res.status(404).json({ msg: "User not found" });
 
-//     if (!mongoose.Types.ObjectId.isValid(id)) {
-//       return res.status(400).json({ message: "Invalid Event ID" });
-//     }
+    res.json({
+      createdEvents: user.createdEvents,
+      invitedEvents: user.invitedEvents
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: "Server error" });
+  }
+};
 
-//     const event = await Event.findById(id);
-
-//     if (!event) {
-//       return res.status(404).json({ message: "Event not found" });
-//     }
-
-//     res.json(event);
-//   } catch (error) {
-//     console.error("Error fetching event:", error);
-//     res.status(500).json({ message: "Server error" });
-//   }
-// };
-
-
-
-module.exports = { createEvent, getEvents, rsvpEvent,deleteEvent,getEventById,registerEvent};
+module.exports = { createEvent, getEvents, rsvpEvent,deleteEvent,getEventById,registerEvent,getDashboard};
