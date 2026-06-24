@@ -41,12 +41,4 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 // app.use(express.json());
 // app.use(cors());
 
-// // ✅ ROUTES
-// const authRoutes = require('./routes/auth');    // <-- Import auth routes
-// const eventRoutes = require('./routes/events'); // <-- Import event routes
 
-// app.use('/api/auth', authRoutes);  // <-- Use auth routes
-// app.use('/api/events', eventRoutes); // <-- Use event routes
-
-// const PORT = process.env.PORT || 5000;
-// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

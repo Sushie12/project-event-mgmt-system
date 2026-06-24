@@ -25,13 +25,13 @@ const createEvent= async (req, res) => {
     // VALIDATION SECTION
     // ---------------------------
 
-    // 1️⃣ Required fields
+    // Required fields
     if (!title || !description || !date || !time || !location) {
       return res.status(400).json({ msg: "Please fill all required fields." });
     }
 
 
-    // 2️⃣ Private event must have invitedUsers
+    //  Private event must have invitedUsers
     if (isPublic === false) {
       if (!invitedEmails || invitedEmails.length === 0) {
         return res.status(400).json({
@@ -40,7 +40,7 @@ const createEvent= async (req, res) => {
       }
     }
 
-    // 3️⃣ Closed event MUST have seats
+    //  Closed event MUST have seats
     if (eventType === "closed") {
       if (!seats || seats < 1) {
         return res.status(400).json({
@@ -56,7 +56,7 @@ const createEvent= async (req, res) => {
       });
     }
 
-    // 4️⃣ If RSVP enabled → maxSeats required
+    //  If RSVP enabled → maxSeats required
     if (enableRsvp === true) {
       if (!maxSeats || maxSeats < 1) {
         return res.status(400).json({
